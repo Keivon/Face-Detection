@@ -14,13 +14,14 @@ export let output = "";
 
 export const loadmodels = () => {
   return async (dispatch) => {
-    dispatch({
-      type: "LOADMODELS",
-    });
+   
     KNN = knnClassifier.create();
     MBNET = await mobilenetModule.load();
     let videoElement = document.getElementById("webcam");
     CAMERA = await tf.data.webcam(videoElement);
+    dispatch({
+      type: "LOADMODELS",
+    });
   }
 }
 

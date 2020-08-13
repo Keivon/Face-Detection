@@ -10,7 +10,7 @@ import "./App.css";
 function App() {
 
   const dispatch = useDispatch();
-  const { output } = useSelector((state) => state.output);
+  const { output, isLoading } = useSelector((state) => state.output);
 
   const videoConstraints = {
     width: 1280,
@@ -24,7 +24,7 @@ function App() {
   const [counter, setCounter] = useState(5);
   const [view, setView] = useState(false);
   const [label, setLabel] = useState("Right");
-  
+
 
   const [play] = useSound(
     soundUrl,
@@ -82,34 +82,35 @@ function App() {
 
   return (
 
-    <div className="App">
+
+    <div className="App" >
+      <div id="loader" style={isLoading ? {} : { display: "none" }}></div>
       <Webcam
         audio={false}
         id="webcam"
         screenshotFormat="image/jpeg"
         videoConstraints={videoConstraints}
-        className="video"
+        className="animate-bottom"
+        style={isLoading ? { display: "none" } : {}}
       />
       <div className="overlay">
         <div className="CountN">{view && counter}</div>
         <h3 >{view && instructions}</h3>
-        <h2>{!view && output }</h2>
+        <h2>{!view && output}</h2>
       </div>
-      <div>
+      <div style={isLoading ? { display: "none" } : {}} >
         <span>
           <button className="btn" onClick={() => {
             setStart(true);
             setView(true);
           }}>Start</button>
         </span>
-
         <span>
           <button className="btn" onClick={() => Reset()}>Reset</button>
         </span>
-
       </div>
-
     </div>
+
   );
 
 }

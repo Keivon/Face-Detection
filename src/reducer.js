@@ -1,6 +1,6 @@
 const initialState = {
     output: "",
-    isLoading: false,
+    isLoading: true,
     label: "",
 }
 
@@ -10,7 +10,7 @@ function Reducer(state = initialState, action) {
         case "LOADMODELS":
             return {
                 ...state,
-                isLoading: true,
+                isLoading: false,
             };
         case "START_TRAINING":
             return {
