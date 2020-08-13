@@ -93,6 +93,7 @@ function App() {
       <div className="overlay">
         <div className="CountN">{view && counter}</div>
         <h3 >{view && instructions}</h3>
+        <h2>{!view && output }</h2>
       </div>
       <div>
         <span>
@@ -108,7 +109,6 @@ function App() {
 
       </div>
 
-      <label>{output}</label>
     </div>
   );
 
