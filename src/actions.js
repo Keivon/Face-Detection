@@ -49,7 +49,7 @@ export function run() {
           logits.dispose();
         }
         
-    }, 100)
+    }, 200)
   }
 }
 
