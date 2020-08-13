@@ -1,12 +1,8 @@
 .App {
   text-align: center;
-  background-color: #282c34;
+  background-image: url("./img/white-b.png");
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  
+  display: inline-grid;
 }
 
 
@@ -19,9 +15,9 @@
   cursor: pointer;
 }
 
-.text{
+.CountN{
   position: absolute;
-  top: 50%;
+  top: 25%;
   left: 50%;
   font-size: 20vh;
   color: rgb(173, 45, 45);
@@ -29,7 +25,20 @@
   -ms-transform: translate(-50%,-50%);
 }
 
+
+
 .video {
   width: 100vw;
   height: 50vh;
 }
+
+.btn {
+  color: black;
+  font-size: 20px;
+  padding: 10px 60px;
+  border-radius: 5px;
+  margin: 10px ;
+  border-color: black;
+  cursor: pointer;
+}
+

@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loadmodels, run, Training, StopTraining } from "./actions"
+import { loadmodels, Run, Training, StopTraining, StopRun } from "./actions"
+import useSound from 'use-sound';
 import Webcam from "react-webcam";
+import soundUrl from './sounds/rising-pops.mp3'
 
 import "./App.css";
 
 function App() {
 
   const dispatch = useDispatch();
-  const {output}  = useSelector((state) => state.output);
+  const { output } = useSelector((state) => state.output);
 
   const videoConstraints = {
     width: 1280,
@@ -16,13 +18,29 @@ function App() {
     facingMode: "user"
   };
 
-
+  const [instructions, setinstructions] = useState("Move your head to the right");
   const [flag, setFlag] = useState(0);
   const [start, setStart] = useState(false);
   const [counter, setCounter] = useState(5);
+  const [view, setView] = useState(false);
   const [label, setLabel] = useState("Right");
+  
 
+  const [play] = useSound(
+    soundUrl,
+    { volume: 0.5 }
+  );
 
+  const Reset = () => {
+    setStart(false);
+    setView(false);
+    dispatch(StopRun());
+    setLabel("Right");
+    setCounter(5);
+    setFlag(0);
+    setinstructions("Move your head to the Right")
+
+  }
 
   useEffect(() => {
     dispatch(loadmodels())
@@ -41,21 +59,24 @@ function App() {
 
       if (counter < 1 && flag === 1) {
         dispatch(StopTraining());
-        dispatch(run())
+        setView(false);
+        dispatch(Run());
       }
 
       if (counter < 1 && flag === 0) {
         dispatch(StopTraining());
+        play();
         setLabel("Left");
+        setinstructions("Move your head to the Left")
         setCounter(5);
         setFlag(flag + 1);
       }
-      
+
     }
-  }, [start, counter, flag, label, dispatch ]);
+  }, [start, counter, flag, label, dispatch, play]);
 
 
-  
+
 
 
 
@@ -63,22 +84,32 @@ function App() {
 
     <div className="App">
       <Webcam
-          audio={false}
-          id= "webcam"
-          screenshotFormat="image/jpeg"
-          videoConstraints={videoConstraints}
-          className="video"
-        />
-
-
+        audio={false}
+        id="webcam"
+        screenshotFormat="image/jpeg"
+        videoConstraints={videoConstraints}
+        className="video"
+      />
       <div className="overlay">
-        <div className="text">{counter > 0 && counter}</div>
+        <div className="CountN">{view && counter}</div>
+        <h3 >{view && instructions}</h3>
       </div>
-      <button onClick={() => { setStart(true) }}>Start</button>
+      <div>
+        <span>
+          <button className="btn" onClick={() => {
+            setStart(true);
+            setView(true);
+          }}>Start</button>
+        </span>
+
+        <span>
+          <button className="btn" onClick={() => Reset()}>Reset</button>
+        </span>
+
+      </div>
 
       <label>{output}</label>
     </div>
-
   );
 
 }
